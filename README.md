@@ -38,5 +38,5 @@ struct SomeOtherType {
 ## Acknowledgements
 Thanks to:
 
-* airspeedswift's [cowed](https://gist.github.com/airspeedswift/71ccddc27354be908dd92a52a34a776f)
-* Doug Gregor's property wrappers proposal [example](https://github.com/DougGregor/swift-evolution/blob/property-wrappers/proposals/0258-property-wrappers.md#copy-on-write)
+* Ben Cohen's [cowed](https://gist.github.com/airspeedswift/71ccddc27354be908dd92a52a34a776f)
+* Doug Gregor's property wrappers proposal [COW example](https://github.com/DougGregor/swift-evolution/blob/property-wrappers/proposals/0258-property-wrappers.md#copy-on-write)
