@@ -8,7 +8,7 @@ A package to give reference types Copy On Write (COW) symantics.
 ## Swift Package Manager
 Update your `Package.swift` to include this to your package dependencies:
 ```
-.package(url: "https://github.com/bscothern/Moo.git", from: "1.0.0")
+.package(url: "https://github.com/bscothern/Moo.git", from: "0.1.0")
 ```
 
 ## Usage
@@ -17,13 +17,12 @@ Moo works with types that conform to the `Copyable` protocol. You should make a 
 ```
 import Moo
 
-class SomeType: Copyable {
-    required init(copying other: SomeType) {
-        // Copy other to create self
-    }
+final class SomeType: Copyable {
+    static func createCopy(of other: SomeType) -> SomeType { ... }
     ...
 }
 ```
+You will likely want to have your class be `final` in order to return a the concrete type rather than `Self` which is what the protocol requires. This avoids the need to use `SomeNonFinalType(...) as! SomeNonFinalType` as the return value and a lot of potential bugs that can come with inheritance.
 
 Once a type is `Copyable` you simply applie the `@COW` property wrapper to the type and it will be coppied when you access the wrapped value.
 

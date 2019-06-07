@@ -23,7 +23,7 @@ public struct COW<Value: Copyable> {
     public var value: Value {
         mutating get {
             if !isKnownUniquelyReferenced(&_value) {
-                _value = Value(copying: _value)
+                _value = Value.createCopy(of: _value)
                 #if DEBUG
                 _copyCount += 1
                 #endif

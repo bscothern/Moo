@@ -7,9 +7,9 @@ private final class FinalClass: Copyable {
     init(i: Int = 0) {
         self.i = i
     }
-
-    required init(copying other: FinalClass) {
-        i = other.i
+    
+    static func createCopy(of other: FinalClass) -> FinalClass {
+        return FinalClass(i: other.i)
     }
 }
 

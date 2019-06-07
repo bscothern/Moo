@@ -7,8 +7,9 @@
 
 /// An object that can be coppied.
 public protocol Copyable: AnyObject {
-    /// Creates a copy of `other`.
+    /// Creates a copy of an instance of the `Copyable` type.
     ///
     /// - parameter other: The object that should be coppied.
-    init(copying other: Self)
+    /// - returns: A copy of `other`.
+    static func createCopy(of other: Self) -> Self
 }

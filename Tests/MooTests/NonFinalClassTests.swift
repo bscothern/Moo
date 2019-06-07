@@ -8,8 +8,8 @@ private class NonFinalClass: Copyable {
         self.i = i
     }
 
-    required init(copying other: NonFinalClass) {
-        i = other.i
+    static func createCopy(of other: NonFinalClass) -> Self {
+        return NonFinalClass(i: other.i) as! Self
     }
 }
 
