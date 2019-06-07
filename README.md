@@ -8,7 +8,7 @@ A package to give reference types Copy On Write (COW) symantics.
 ## Swift Package Manager
 Update your `Package.swift` to include this to your package dependencies:
 ```
-.package(url: "https://github.com/bscothern/Moo.git", from: "0.1.0")
+.package(url: "https://github.com/bscothern/Moo.git", from: "0.2.0")
 ```
 
 ## Usage
@@ -32,7 +32,10 @@ struct SomeOtherType {
 }
 ```
 
-**IMPORTANT:** Until Swift exposes the `_modify` accessor as a public access modifier the copy will happen on any read where the wrapped type doesn't have a unique referenece.
+**IMPORTANT:** Until Swift exposes the `_modify` accessor as a public access modifier the copy will happen on any read or write where the wrapped type doesn't have a unique referenece.
 
 ## Acknowledgements
-Thanks to: airspeedswift's [cowed](https://gist.github.com/airspeedswift/71ccddc27354be908dd92a52a34a776f) and the Property Wrappers proposal [example](https://github.com/DougGregor/swift-evolution/blob/property-wrappers/proposals/0258-property-wrappers.md#copy-on-write)
+Thanks to:
+
+* airspeedswift's [cowed](https://gist.github.com/airspeedswift/71ccddc27354be908dd92a52a34a776f)
+* Doug Gregor's property wrappers proposal [example](https://github.com/DougGregor/swift-evolution/blob/property-wrappers/proposals/0258-property-wrappers.md#copy-on-write)
