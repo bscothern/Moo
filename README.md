@@ -4,6 +4,7 @@
 
 A package to give reference types Copy On Write (COW) symantics.
 
+###** Requires Xcode11 and Swift 5.1 **
 
 ## Swift Package Manager
 Update your `Package.swift` to include this to your package dependencies:
