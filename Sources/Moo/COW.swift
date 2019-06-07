@@ -21,7 +21,9 @@ public struct COW<Value: Copyable> {
             }
             return _value
         }
-        mutating set { _value = newValue}
+        mutating set {
+            _value = newValue
+        }
     }
 
     public init(initialValue: Value) {
