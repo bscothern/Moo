@@ -8,7 +8,7 @@ A package to give reference types Copy On Write (COW) symantics.
 ## Swift Package Manager
 Update your `Package.swift` to include this to your package dependencies:
 ```
-.package(url: "https://github.com/bscothern/Moo.git", from: "1.0.0")
+.package(url: "https://github.com/bscothern/Moo.git", from: "0.1.0")
 ```
 
 ## Usage
