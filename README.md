@@ -18,10 +18,10 @@ Moo works with types that conform to the `Copyable` protocol. You should make a 
 import Moo
 
 class SomeType: Copyable {
-	required init(copying other: SomeType) {
-		// Copy other to create self
-	}
-	...
+    required init(copying other: SomeType) {
+        // Copy other to create self
+    }
+    ...
 }
 ```
 
@@ -29,7 +29,7 @@ Once a type is `Copyable` you simply applie the `@COW` property wrapper to the t
 
 ```
 struct SomeOtherType {
-	@COW someType: SomeType = SomeType(...)
+    @COW someType: SomeType = SomeType(...)
 }
 ```
 
