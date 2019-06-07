@@ -2,15 +2,15 @@
 import XCTest
 
 final class MooTests: XCTestCase {
-    final class A: Copyable {
+    class A: Copyable {
         var i: Int
 
         init(i: Int = 0) {
             self.i = i
         }
 
-        func copy() -> A {
-            return A(i: i)
+        required init(copying other: A) {
+            i = other.i
         }
     }
 

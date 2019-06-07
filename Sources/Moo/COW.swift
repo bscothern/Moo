@@ -1,5 +1,5 @@
 public protocol Copyable: AnyObject {
-    func copy() -> Self
+    init(copying other: Self)
 }
 
 @propertyDelegate
@@ -14,7 +14,7 @@ public struct COW<Value: Copyable> {
     public var value: Value {
         mutating get {
             if !isKnownUniquelyReferenced(&_value) {
-                _value = _value.copy()
+                _value = Value(copying: _value)
                 #if DEBUG
                 copyCount += 1
                 #endif
