@@ -75,8 +75,4 @@ final class NonFinalClassTests: XCTestCase {
             b = a
         }
     }
-
-    static var allTests = [
-        ("testBasicCopy", testBasicCopy),
-    ]
 }
