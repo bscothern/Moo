@@ -54,13 +54,17 @@ public struct COW<Value: Copyable> {
             return
         }
         _value = Value.createCopy(of: _value)
+
         #if DEBUG
         _copyCount += 1
-        _globalCopyCount += 1
+        _globalCOWCopyCount += 1
         #endif
     }
 }
 
 #if DEBUG
-var _globalCopyCount: Int = 0
+/// A global counter of how many copys have taken place.
+///
+/// This only exists for testing purposes
+var _globalCOWCopyCount: Int = 0
 #endif

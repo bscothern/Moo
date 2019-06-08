@@ -27,7 +27,7 @@ final class NonFinalClassTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        _globalCopyCount = 0
+        _globalCOWCopyCount = 0
         
         $a = COW<NonFinalClass>(initialValue: NonFinalClass())
         $b = COW<NonFinalClass>(initialValue: NonFinalClass())
@@ -38,7 +38,7 @@ final class NonFinalClassTests: XCTestCase {
         XCTAssert($a._value === $b._value)
         XCTAssertEqual($a._copyCount, 0)
         XCTAssertEqual($b._copyCount, 0)
-        XCTAssertEqual(_globalCopyCount, 0)
+        XCTAssertEqual(_globalCOWCopyCount, 0)
     }
 
     func testBasicCopy() {
@@ -54,7 +54,7 @@ final class NonFinalClassTests: XCTestCase {
         XCTAssertEqual(b.i, 2)
         XCTAssertEqual($a._copyCount, 0)
         XCTAssertEqual($b._copyCount, 1)
-        XCTAssertEqual(_globalCopyCount, 1)
+        XCTAssertEqual(_globalCOWCopyCount, 1)
     }
 
     func testOneCopyOnRead() {
@@ -64,7 +64,7 @@ final class NonFinalClassTests: XCTestCase {
         XCTAssertEqual(b.i, 0)
         XCTAssertEqual($a._copyCount, 1)
         XCTAssertEqual($b._copyCount, 0)
-        XCTAssertEqual(_globalCopyCount, 1)
+        XCTAssertEqual(_globalCOWCopyCount, 1)
     }
 
     func testNoCopyIntoCopy() {
@@ -83,13 +83,13 @@ final class NonFinalClassTests: XCTestCase {
         XCTAssertEqual(b.i, 1)
         XCTAssertEqual($a._copyCount, 1)
         XCTAssertEqual($b._copyCount, 0)
-        XCTAssertEqual(_globalCopyCount, 1)
+        XCTAssertEqual(_globalCOWCopyCount, 1)
     }
 
     func testManyCopies() {
         let iterations = 1...100
         for i in iterations {
-            b.i = 1
+            b.i += 1
             XCTAssertEqual($a._copyCount, 0)
             XCTAssertEqual($b._copyCount, i)
             b.i = 2
@@ -97,6 +97,6 @@ final class NonFinalClassTests: XCTestCase {
             XCTAssertEqual($b._copyCount, i)
             b = a
         }
-        XCTAssertEqual(_globalCopyCount, iterations.count)
+        XCTAssertEqual(_globalCOWCopyCount, iterations.count)
     }
 }
