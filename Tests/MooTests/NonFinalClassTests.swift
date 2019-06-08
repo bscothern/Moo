@@ -1,3 +1,10 @@
+//
+//  NonFinalClassTests.swift
+//
+//
+//  Created by Braden Scothern on 6/6/19.
+//
+
 @testable import Moo
 import XCTest
 
@@ -19,7 +26,9 @@ final class NonFinalClassTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-
+        
+        _globalCopyCount = 0
+        
         $a = COW<NonFinalClass>(initialValue: NonFinalClass())
         $b = COW<NonFinalClass>(initialValue: NonFinalClass())
         b = a
@@ -29,43 +38,57 @@ final class NonFinalClassTests: XCTestCase {
         XCTAssert($a._value === $b._value)
         XCTAssertEqual($a._copyCount, 0)
         XCTAssertEqual($b._copyCount, 0)
+        XCTAssertEqual(_globalCopyCount, 0)
     }
 
     func testBasicCopy() {
+        XCTAssertEqual($a._copyCount, 0)
+        XCTAssertEqual($b._copyCount, 0)
+        
         b.i = 1
         b.i = 2
 
+        XCTAssertEqual($a._copyCount, 0)
         XCTAssertEqual($b._copyCount, 1)
         XCTAssertEqual(a.i, 0)
         XCTAssertEqual(b.i, 2)
-
         XCTAssertEqual($a._copyCount, 0)
         XCTAssertEqual($b._copyCount, 1)
+        XCTAssertEqual(_globalCopyCount, 1)
     }
 
     func testOneCopyOnRead() {
+        XCTAssertEqual($a._copyCount, 0)
+        XCTAssertEqual($b._copyCount, 0)
         XCTAssertEqual(a.i, 0)
         XCTAssertEqual(b.i, 0)
         XCTAssertEqual($a._copyCount, 1)
         XCTAssertEqual($b._copyCount, 0)
+        XCTAssertEqual(_globalCopyCount, 1)
     }
 
     func testNoCopyIntoCopy() {
+        XCTAssertEqual($a._copyCount, 0)
+        XCTAssertEqual($b._copyCount, 0)
         XCTAssertEqual(a.i, 0)
         XCTAssertEqual(b.i, 0)
+        XCTAssertEqual($a._copyCount, 1)
         XCTAssertEqual($b._copyCount, 0)
 
         b.i = 1
-        XCTAssertEqual($a._copyCount, 1)
-        XCTAssertEqual(a.i, 0)
-        XCTAssertEqual(b.i, 1)
-
+        
         XCTAssertEqual($a._copyCount, 1)
         XCTAssertEqual($b._copyCount, 0)
+        XCTAssertEqual(a.i, 0)
+        XCTAssertEqual(b.i, 1)
+        XCTAssertEqual($a._copyCount, 1)
+        XCTAssertEqual($b._copyCount, 0)
+        XCTAssertEqual(_globalCopyCount, 1)
     }
 
     func testManyCopies() {
-        for i in 1...100 {
+        let iterations = 1...100
+        for i in iterations {
             b.i = 1
             XCTAssertEqual($a._copyCount, 0)
             XCTAssertEqual($b._copyCount, i)
@@ -74,5 +97,6 @@ final class NonFinalClassTests: XCTestCase {
             XCTAssertEqual($b._copyCount, i)
             b = a
         }
+        XCTAssertEqual(_globalCopyCount, iterations.count)
     }
 }

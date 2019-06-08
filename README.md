@@ -33,8 +33,6 @@ struct SomeOtherType {
 }
 ```
 
-**IMPORTANT:** Until Swift exposes the `_modify` accessor as a public access modifier the copy will happen on any read or write where the wrapped type doesn't have a unique referenece.
-
 ## Acknowledgements
 Thanks to:
 

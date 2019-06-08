@@ -22,16 +22,13 @@ public struct COW<Value: Copyable> {
     // MARK: propertyDelegate
     public var value: Value {
         mutating get {
-            if !isKnownUniquelyReferenced(&_value) {
-                _value = Value.createCopy(of: _value)
-                #if DEBUG
-                _copyCount += 1
-                #endif
-            }
+            makeValueUniqueIfNeeded()
             return _value
         }
-        mutating set {
-            _value = newValue
+        mutating set { _value = newValue }
+        _modify {
+            makeValueUniqueIfNeeded()
+            yield &_value
         }
     }
 
@@ -46,6 +43,24 @@ public struct COW<Value: Copyable> {
 
     public subscript<Result>(dynamicMember keyPath: WritableKeyPath<Value, Result>) -> Result {
         mutating get { value[keyPath: keyPath] }
-        mutating set { value[keyPath: keyPath] = newValue }
+        set { value[keyPath: keyPath] = newValue }
+        _modify { yield &value[keyPath: keyPath] }
+    }
+
+    // MARK: - Funcs
+    // MARK: Private
+    private mutating func makeValueUniqueIfNeeded() {
+        guard !isKnownUniquelyReferenced(&_value) else {
+            return
+        }
+        _value = Value.createCopy(of: _value)
+        #if DEBUG
+        _copyCount += 1
+        _globalCopyCount += 1
+        #endif
     }
 }
+
+#if DEBUG
+var _globalCopyCount: Int = 0
+#endif
