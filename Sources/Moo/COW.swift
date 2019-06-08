@@ -16,7 +16,7 @@ public struct COW<Value: Copyable> {
 
     #if DEBUG
     /// A counter used for debugging and testing to check how often copies are made.
-    var _copyCount: Int = 0
+    public var _copyCount: Int = 0
     #endif
 
     // MARK: propertyDelegate
@@ -57,7 +57,7 @@ public struct COW<Value: Copyable> {
 
         #if DEBUG
         _copyCount += 1
-        _globalCOWCopyCount += 1
+        _COWCopyCount += 1
         #endif
     }
 }
@@ -66,5 +66,5 @@ public struct COW<Value: Copyable> {
 /// A global counter of how many copys have taken place.
 ///
 /// This only exists for testing purposes
-var _globalCOWCopyCount: Int = 0
+public var _COWCopyCount: Int = 0
 #endif

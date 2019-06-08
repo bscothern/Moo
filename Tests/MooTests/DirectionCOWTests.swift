@@ -26,7 +26,7 @@ final class DirectionCOWTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        _globalCOWCopyCount = 0
+        _COWCopyCount = 0
         
         $a = COW<SomeClass>(initialValue: SomeClass())
     }
@@ -42,7 +42,7 @@ final class DirectionCOWTests: XCTestCase {
         
         XCTAssertEqual(a.i, 1)
         XCTAssertEqual($a._copyCount, 0)
-        XCTAssertEqual(_globalCOWCopyCount, 0)
+        XCTAssertEqual(_COWCopyCount, 0)
     }
 
     func testCOWPass() {
@@ -50,7 +50,7 @@ final class DirectionCOWTests: XCTestCase {
         
         func cowPass(_ value: COW<SomeClass>) {
             let i = value.i + 1
-            XCTAssertEqual(_globalCOWCopyCount, 0)
+            XCTAssertEqual(_COWCopyCount, 0)
             var value = value
             value.i += 1
             XCTAssertEqual(i, value.i)
@@ -60,7 +60,7 @@ final class DirectionCOWTests: XCTestCase {
         XCTAssertEqual($a._copyCount, 0)
         XCTAssertEqual(a.i, 0)
         XCTAssertEqual($a._copyCount, 0)
-        XCTAssertEqual(_globalCOWCopyCount, 1)
+        XCTAssertEqual(_COWCopyCount, 1)
     }
     
     func testInoutCOWPass() {
@@ -74,6 +74,6 @@ final class DirectionCOWTests: XCTestCase {
         XCTAssertEqual($a._copyCount, 0)
         XCTAssertEqual(a.i, 1)
         XCTAssertEqual($a._copyCount, 0)
-        XCTAssertEqual(_globalCOWCopyCount, 0)
+        XCTAssertEqual(_COWCopyCount, 0)
     }
 }
