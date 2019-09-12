@@ -16,25 +16,25 @@ matrix:
                 RUN_TESTS=True
                 USE_XCODE_BUILD=False
 
-        - os: linux
-          dist: xenial
-          language: c
-          compiler: clang
-          env:
-              - NAME="SwiftPM"
-                RUN_TESTS=True
-                USE_XCODE_BUILD=False
-                DIST="xenial"
+#        - os: linux
+#          dist: xenial
+#          language: c
+#          compiler: clang
+#          env:
+#              - NAME="SwiftPM"
+#                RUN_TESTS=True
+#                USE_XCODE_BUILD=False
+#                DIST="xenial"
 
-        - os: linux
-          dist: bionic
-          language: c
-          compiler: clang
-          env:
-              - NAME="SwiftPM"
-                RUN_TESTS=True
-                USE_XCODE_BUILD=False
-                DIST="bionic"
+#        - os: linux
+#          dist: bionic
+#          language: c
+#          compiler: clang
+#          env:
+#              - NAME="SwiftPM"
+#                RUN_TESTS=True
+#                USE_XCODE_BUILD=False
+#                DIST="bionic"
 
 script:
   - ./.travis-ci.sh
