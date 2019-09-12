@@ -36,7 +36,7 @@ struct SomeOtherType {
 ### Working with NSCopying
 If you have a type that conforms to `NSCopying` you can conform it to `Copyable` and it will use `NSCopying`'s `copy()` function as the default implimentation of `Copyable`'s requirements.
 
-### By passing Self Requirements
+### Bypassing Self Requirements
 Because `Copyable` has `Self` requirements it can cause issues if you try to have a collection of them. If you need to create a copy of a type you can also drop into `_createCopy(of:)` which is a function at global scope. It will safely attempt to use the `Copyable` protocol on the object and return a copy or `nil`.
 
 ## Acknowledgements
