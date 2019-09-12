@@ -33,7 +33,12 @@ public struct COW<Value: Copyable> {
             yield &value
         }
     }
-
+    
+    /// Creates a `COW`.
+    ///
+    /// This `init` is part of the requirements of `@propertyWrapper`.
+    ///
+    /// - Parameter wrappedValue: The initial value contained in the `COW`.
     public init(wrappedValue: Value) {
         value = wrappedValue
     }
@@ -45,12 +50,14 @@ public struct COW<Value: Copyable> {
 
     public subscript<Result>(dynamicMember keyPath: WritableKeyPath<Value, Result>) -> Result {
         mutating get { wrappedValue[keyPath: keyPath] }
-        set { wrappedValue[keyPath: keyPath] = newValue }
+        mutating set { wrappedValue[keyPath: keyPath] = newValue }
         _modify { yield &wrappedValue[keyPath: keyPath] }
     }
 
     // MARK: - Funcs
     // MARK: Private
+    
+    /// Creates a copy of `value` if it has multiple references.
     private mutating func makeValueUniqueIfNeeded() {
         guard !isKnownUniquelyReferenced(&value) else {
             return

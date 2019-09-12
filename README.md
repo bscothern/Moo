@@ -1,18 +1,18 @@
 # Moo 🐮
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/bscothern/Moo/blob/master/LICENSE.txt) [![SPM](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
+[![Build Status](https://travis-ci.org/bscothern/Moo.svg?branch=master)](https://travis-ci.org/bscothern/Moo)
 
-A package to give reference types Copy On Write (COW) symantics.
-
-### ** Requires Xcode11 and Swift 5.1 **
+A package to give reference types Copy On Write (COW) symantics using Property Wrappers and no external dependencies.
 
 ## Swift Package Manager
 Update your `Package.swift` to include this to your package dependencies:
 ```
-.package(url: "https://github.com/bscothern/Moo.git", from: "0.3.0")
+.package(url: "https://github.com/bscothern/Moo.git", from: "1.0.0")
 ```
 
 ## Usage
+### General
 Moo works with types that conform to the `Copyable` protocol. You should make a class conform like this
 
 ```
@@ -32,6 +32,12 @@ struct SomeOtherType {
     @COW someType: SomeType = SomeType(...)
 }
 ```
+
+### Working with NSCopying
+If you have a type that conforms to `NSCopying` you can conform it to `Copyable` and it will use `NSCopying`'s `copy()` function as the default implimentation of `Copyable`'s requirements.
+
+### By passing Self Requirements
+Because `Copyable` has `Self` requirements it can cause issues if you try to have a collection of them. If you need to create a copy of a type you can also drop into `_createCopy(of:)` which is a function at global scope. It will safely attempt to use the `Copyable` protocol on the object and return a copy or `nil`.
 
 ## Acknowledgements
 Thanks to:
