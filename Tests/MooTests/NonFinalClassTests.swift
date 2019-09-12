@@ -26,9 +26,9 @@ final class NonFinalClassTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        
+
         _COWCopyCount = 0
-        
+
         _a = COW<NonFinalClass>(wrappedValue: NonFinalClass())
         _b = COW<NonFinalClass>(wrappedValue: NonFinalClass())
         b = a
@@ -44,7 +44,7 @@ final class NonFinalClassTests: XCTestCase {
     func testBasicCopy() {
         XCTAssertEqual(_a._copyCount, 0)
         XCTAssertEqual(_b._copyCount, 0)
-        
+
         b.i = 1
         b.i = 2
 
@@ -76,7 +76,7 @@ final class NonFinalClassTests: XCTestCase {
         XCTAssertEqual(_b._copyCount, 0)
 
         b.i = 1
-        
+
         XCTAssertEqual(_a._copyCount, 1)
         XCTAssertEqual(_b._copyCount, 0)
         XCTAssertEqual(a.i, 0)

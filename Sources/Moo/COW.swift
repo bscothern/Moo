@@ -10,7 +10,7 @@
 @dynamicMemberLookup
 public struct COW<Value: Copyable> {
     // MARK: - Properties
-    
+
     /// The reference to object that the `COW` gives Copy-On-Write symantics to.
     ///
     /// - Note: This is internal so it can be inspected in tests

@@ -12,16 +12,15 @@ private final class FinalClass: Copyable {
     struct S {
         var i: Int = 0
     }
-    
+
     var i: Int
     var s: S
-    
-    
+
     init(i: Int = 0) {
         self.i = i
         s = S()
     }
-    
+
     static func createCopy(of other: FinalClass) -> FinalClass {
         return FinalClass(i: other.i)
     }
@@ -33,7 +32,7 @@ final class FinalClassTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        
+
         _COWCopyCount = 0
 
         _a = COW<FinalClass>(wrappedValue: FinalClass())
@@ -84,7 +83,7 @@ final class FinalClassTests: XCTestCase {
         XCTAssertEqual(_b._copyCount, 0)
 
         b.i = 1
-        
+
         XCTAssertEqual(_a._copyCount, 1)
         XCTAssertEqual(_b._copyCount, 0)
         XCTAssertEqual(a.i, 0)
