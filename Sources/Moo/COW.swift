@@ -33,7 +33,7 @@ public struct COW<Value: Copyable> {
             yield &value
         }
     }
-    
+
     /// Creates a `COW`.
     ///
     /// This `init` is part of the requirements of `@propertyWrapper`.
@@ -56,7 +56,7 @@ public struct COW<Value: Copyable> {
 
     // MARK: - Funcs
     // MARK: Private
-    
+
     /// Creates a copy of `value` if it has multiple references.
     private mutating func makeValueUniqueIfNeeded() {
         guard !isKnownUniquelyReferenced(&value) else {

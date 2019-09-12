@@ -22,7 +22,6 @@ public protocol Copyable: _Copyable, AnyObject {
 ///
 /// - Important: You shouldn't add your own conformances to this type.
 public protocol _Copyable {
-    
     /// A function that is used to access `Copyable` while avoiding PAT restrictions.
     ///
     /// - Important: The default implimentation of this assumes that `instance` is `Self`.
