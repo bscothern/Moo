@@ -28,25 +28,25 @@ final class DirectionCOWTests: XCTestCase {
         
         _COWCopyCount = 0
         
-        $a = COW<SomeClass>(initialValue: SomeClass())
+        _a = COW<SomeClass>(wrappedValue: SomeClass())
     }
     
     func testDirectPass() {
-        XCTAssertEqual($a._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 0)
         
         func direct(_ value: SomeClass) {
             value.i += 1
         }
         direct(a)
-        XCTAssertEqual($a._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 0)
         
         XCTAssertEqual(a.i, 1)
-        XCTAssertEqual($a._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 0)
         XCTAssertEqual(_COWCopyCount, 0)
     }
 
     func testCOWPass() {
-        XCTAssertEqual($a._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 0)
         
         func cowPass(_ value: COW<SomeClass>) {
             let i = value.i + 1
@@ -55,25 +55,25 @@ final class DirectionCOWTests: XCTestCase {
             value.i += 1
             XCTAssertEqual(i, value.i)
         }
-        cowPass($a)
+        cowPass(_a)
 
-        XCTAssertEqual($a._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 0)
         XCTAssertEqual(a.i, 0)
-        XCTAssertEqual($a._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 0)
         XCTAssertEqual(_COWCopyCount, 1)
     }
     
     func testInoutCOWPass() {
-        XCTAssertEqual($a._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 0)
         
         func inoutCOWPass(_ value: inout COW<SomeClass>) {
             value.i += 1
         }
-        inoutCOWPass(&$a)
+        inoutCOWPass(&_a)
         
-        XCTAssertEqual($a._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 0)
         XCTAssertEqual(a.i, 1)
-        XCTAssertEqual($a._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 0)
         XCTAssertEqual(_COWCopyCount, 0)
     }
 }

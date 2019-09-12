@@ -5,55 +5,57 @@
 //  Created by Braden Scothern on 6/6/19.
 //
 
-/// A Property Delegate that gives reference types Copy-On-Write symantics.
-@propertyDelegate
+/// A `@propertyWrapper` that gives reference types Copy-On-Write symantics.
+@propertyWrapper
 @dynamicMemberLookup
 public struct COW<Value: Copyable> {
+    // MARK: - Properties
+    
     /// The reference to object that the `COW` gives Copy-On-Write symantics to.
     ///
     /// - Note: This is internal so it can be inspected in tests
-    internal var _value: Value
+    internal var value: Value
 
     #if DEBUG
     /// A counter used for debugging and testing to check how often copies are made.
-    public var _copyCount: Int = 0
+    internal var _copyCount: Int = 0
     #endif
 
-    // MARK: propertyDelegate
-    public var value: Value {
+    /// The value vended by the `@propertyWrapper`.
+    public var wrappedValue: Value {
         mutating get {
             makeValueUniqueIfNeeded()
-            return _value
+            return value
         }
-        mutating set { _value = newValue }
+        mutating set { value = newValue }
         _modify {
             makeValueUniqueIfNeeded()
-            yield &_value
+            yield &value
         }
     }
 
-    public init(initialValue: Value) {
-        _value = initialValue
+    public init(wrappedValue: Value) {
+        value = wrappedValue
     }
 
     // MARK: dynamicMemberLookup
     public subscript<Result>(dynamicMember keypath: KeyPath<Value, Result>) -> Result {
-        _value[keyPath: keypath]
+        value[keyPath: keypath]
     }
 
     public subscript<Result>(dynamicMember keyPath: WritableKeyPath<Value, Result>) -> Result {
-        mutating get { value[keyPath: keyPath] }
-        set { value[keyPath: keyPath] = newValue }
-        _modify { yield &value[keyPath: keyPath] }
+        mutating get { wrappedValue[keyPath: keyPath] }
+        set { wrappedValue[keyPath: keyPath] = newValue }
+        _modify { yield &wrappedValue[keyPath: keyPath] }
     }
 
     // MARK: - Funcs
     // MARK: Private
     private mutating func makeValueUniqueIfNeeded() {
-        guard !isKnownUniquelyReferenced(&_value) else {
+        guard !isKnownUniquelyReferenced(&value) else {
             return
         }
-        _value = Value.createCopy(of: _value)
+        value = Value.createCopy(of: value)
 
         #if DEBUG
         _copyCount += 1
@@ -66,5 +68,5 @@ public struct COW<Value: Copyable> {
 /// A global counter of how many copys have taken place.
 ///
 /// This only exists for testing purposes
-public var _COWCopyCount: Int = 0
+internal var _COWCopyCount: Int = 0
 #endif

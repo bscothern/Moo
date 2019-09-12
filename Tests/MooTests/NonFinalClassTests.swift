@@ -29,60 +29,60 @@ final class NonFinalClassTests: XCTestCase {
         
         _COWCopyCount = 0
         
-        $a = COW<NonFinalClass>(initialValue: NonFinalClass())
-        $b = COW<NonFinalClass>(initialValue: NonFinalClass())
+        _a = COW<NonFinalClass>(wrappedValue: NonFinalClass())
+        _b = COW<NonFinalClass>(wrappedValue: NonFinalClass())
         b = a
     }
 
     func testIdentities() {
-        XCTAssert($a._value === $b._value)
-        XCTAssertEqual($a._copyCount, 0)
-        XCTAssertEqual($b._copyCount, 0)
+        XCTAssert(_a.value === _b.value)
+        XCTAssertEqual(_a._copyCount, 0)
+        XCTAssertEqual(_b._copyCount, 0)
         XCTAssertEqual(_COWCopyCount, 0)
     }
 
     func testBasicCopy() {
-        XCTAssertEqual($a._copyCount, 0)
-        XCTAssertEqual($b._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 0)
+        XCTAssertEqual(_b._copyCount, 0)
         
         b.i = 1
         b.i = 2
 
-        XCTAssertEqual($a._copyCount, 0)
-        XCTAssertEqual($b._copyCount, 1)
+        XCTAssertEqual(_a._copyCount, 0)
+        XCTAssertEqual(_b._copyCount, 1)
         XCTAssertEqual(a.i, 0)
         XCTAssertEqual(b.i, 2)
-        XCTAssertEqual($a._copyCount, 0)
-        XCTAssertEqual($b._copyCount, 1)
+        XCTAssertEqual(_a._copyCount, 0)
+        XCTAssertEqual(_b._copyCount, 1)
         XCTAssertEqual(_COWCopyCount, 1)
     }
 
     func testOneCopyOnRead() {
-        XCTAssertEqual($a._copyCount, 0)
-        XCTAssertEqual($b._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 0)
+        XCTAssertEqual(_b._copyCount, 0)
         XCTAssertEqual(a.i, 0)
         XCTAssertEqual(b.i, 0)
-        XCTAssertEqual($a._copyCount, 1)
-        XCTAssertEqual($b._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 1)
+        XCTAssertEqual(_b._copyCount, 0)
         XCTAssertEqual(_COWCopyCount, 1)
     }
 
     func testNoCopyIntoCopy() {
-        XCTAssertEqual($a._copyCount, 0)
-        XCTAssertEqual($b._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 0)
+        XCTAssertEqual(_b._copyCount, 0)
         XCTAssertEqual(a.i, 0)
         XCTAssertEqual(b.i, 0)
-        XCTAssertEqual($a._copyCount, 1)
-        XCTAssertEqual($b._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 1)
+        XCTAssertEqual(_b._copyCount, 0)
 
         b.i = 1
         
-        XCTAssertEqual($a._copyCount, 1)
-        XCTAssertEqual($b._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 1)
+        XCTAssertEqual(_b._copyCount, 0)
         XCTAssertEqual(a.i, 0)
         XCTAssertEqual(b.i, 1)
-        XCTAssertEqual($a._copyCount, 1)
-        XCTAssertEqual($b._copyCount, 0)
+        XCTAssertEqual(_a._copyCount, 1)
+        XCTAssertEqual(_b._copyCount, 0)
         XCTAssertEqual(_COWCopyCount, 1)
     }
 
@@ -90,11 +90,11 @@ final class NonFinalClassTests: XCTestCase {
         let iterations = 1...100
         for i in iterations {
             b.i += 1
-            XCTAssertEqual($a._copyCount, 0)
-            XCTAssertEqual($b._copyCount, i)
+            XCTAssertEqual(_a._copyCount, 0)
+            XCTAssertEqual(_b._copyCount, i)
             b.i = 2
-            XCTAssertEqual($a._copyCount, 0)
-            XCTAssertEqual($b._copyCount, i)
+            XCTAssertEqual(_a._copyCount, 0)
+            XCTAssertEqual(_b._copyCount, i)
             b = a
         }
         XCTAssertEqual(_COWCopyCount, iterations.count)
