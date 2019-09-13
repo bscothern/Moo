@@ -33,6 +33,11 @@ public struct COW<Value: Copyable> {
             yield &value
         }
     }
+    
+    public var projectedValue: Self {
+        get { self }
+        _modify { yield &self}
+    }
 
     /// Creates a `COW`.
     ///
